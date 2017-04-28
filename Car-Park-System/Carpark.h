@@ -1,10 +1,14 @@
 #pragma once
 #include "CarparkSlot.h"
+#include "Staff.h"
 #include <string>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 class Carpark {
+	friend class Staff;
+
 private:
 	int _id;
 	string _name;
@@ -12,7 +16,7 @@ private:
 	int _numSlots[3];
 	int _fees[3];
 	double _accBal;
-	CarparkSlot** _cs;
+	vector<CarparkSlot> _cs;
 
 public:
 	Carpark(int, string, string, int[3], int[3]);
@@ -23,7 +27,7 @@ public:
 	string getLocation() const;
 	double getAccBal() const;
 	
-	void showParkInfo();
+	void showParkInfo() const;
 	void accBal();
 	void remove(int x); 
 };

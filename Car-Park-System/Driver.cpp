@@ -1,6 +1,8 @@
 #include "Driver.h"
 #include<iostream> 
 using namespace std;
+
+// Constructor
 Driver::Driver(int id, string username, string name, string type, string number, double bal) 
 : User(id,username,name) {
 	_vehicleType = type;
@@ -8,6 +10,11 @@ Driver::Driver(int id, string username, string name, string type, string number,
 	_accBal = bal;
 }
 
+// Destructor
+Driver::~Driver() {
+}
+
+// Accessor functions
 string Driver::getVehicleType() const {
 	return _vehicleType;
 }
@@ -19,6 +26,8 @@ string Driver::getPlateNumber() const {
 double Driver::getAccBal() const {
 	return _accBal;
 }
+
+// Mutator functions
 void Driver::setAccBal(double accBal) {
 	_accBal = accBal;
 }
