@@ -14,7 +14,7 @@ private:
 	
 public:
 	// Constructor and destructor
-	Driver(int, string, string, string, string, double);
+	Driver(int, string, string, string, string);
 	~Driver();
 
 	// Accessor functions
@@ -27,9 +27,9 @@ public:
 	
 
 	// Driver Functions
-
+	void reserveParkingSlot();
 	void checkAccBal(); //(ii)
 	void increaseAccountBalance(); //(iii)
 
-
+	void showUsersInfo() const;
 };

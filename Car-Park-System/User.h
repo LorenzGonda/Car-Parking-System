@@ -10,11 +10,13 @@ private:
 
 public:
 	User(int, string, string); // Constructor
-	virtual ~User() = 0; // Pure virtual destructor to make User an ABC
+	virtual ~User(); // Virtual destructor
 	
 	// Accesor Functions
 	int getID() const;
 	string getUsername() const;
 	string getName() const;
+
+	virtual void showUsersInfo() const = 0;
 };
 

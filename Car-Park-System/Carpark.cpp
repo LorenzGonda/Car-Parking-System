@@ -19,17 +19,17 @@ Carpark::Carpark(int id, string name, string location, int numSlots[3], int fees
 	}
 
 	for (int i = 0; i < _numSlots[0]; i++) { // For Motor Cycles
-		string vehicleType = "Motor cycle", slotStatus = "Free";
-		_cs.push_back(CarparkSlot(i, name, vehicleType, slotStatus));
+		string vehicleType = "Motor cycle";
+		_cs.push_back(CarparkSlot(i, name, vehicleType));
 	}
 
 	for (int i = _numSlots[0]; i < _numSlots[0] + _numSlots[1]; i++) { // Private Cars
-		string vehicleType = "Private car", slotStatus = "Free";
-		_cs.push_back(CarparkSlot(i, name, vehicleType, slotStatus));
+		string vehicleType = "Private car";
+		_cs.push_back(CarparkSlot(i, name, vehicleType));
 	}
 	for (int i = _numSlots[1]; i < _numSlots[0] + _numSlots[1] + _numSlots[2]; i++) { // Light Goods Vehicle
-		string vehicleType = "Light goods vehicle", slotStatus = "Free";
-		_cs.push_back(CarparkSlot(i, name, vehicleType, slotStatus));
+		string vehicleType = "Light goods vehicle";
+		_cs.push_back(CarparkSlot(i, name, vehicleType));
 	}
 }
 

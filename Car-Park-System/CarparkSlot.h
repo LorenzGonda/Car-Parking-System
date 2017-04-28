@@ -5,13 +5,15 @@ using namespace std;
 
 class CarparkSlot
 {	
+	friend class Staff;
+
 private:
 	int _id;
 	string _carpark; 
 	string _vehicleType;
-	string _slotStatus;
+	int _slotStatus[24]; // 0 is Free | 1 is Occupied | 2 is Out of Service
 public:
-	CarparkSlot(int, string, string, string);
+	CarparkSlot(int, string, string);
 	~CarparkSlot() {}
 
 	int getID() const;

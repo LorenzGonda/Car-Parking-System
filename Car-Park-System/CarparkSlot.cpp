@@ -1,11 +1,14 @@
 #include "CarparkSlot.h"
 #include <iostream>
 using namespace std;
-CarparkSlot::CarparkSlot(int id, string carpark, string vehicleType, string status) {
+CarparkSlot::CarparkSlot(int id, string carpark, string vehicleType) {
 	_id = id;
 	_carpark = carpark;
 	_vehicleType = vehicleType;
-	_slotStatus = status;
+	
+	for (int i = 0; i < 24; i++) {
+		_slotStatus[i] = 0;
+	}
 }
 int CarparkSlot::getID() const
 {

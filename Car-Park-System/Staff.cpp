@@ -1,5 +1,7 @@
 #include "Staff.h"
+#include "Driver.h"
 #include <iostream>
+#include <typeinfo>
 using namespace std;
 
 // Constructor
@@ -10,10 +12,12 @@ Staff::Staff(int id, string username, string name) : User(id, username, name) {
 Staff::~Staff() {
 }
 
-void Staff::showUsersInfo() {
+void Staff::showUsersInfo() const {
+	cout << "==============================================" << endl;
 	cout << "User ID: " << getID() << endl;
 	cout << "Username: " << getUsername() << endl;
 	cout << "Name: " << getName() << endl;
+	cout << "==============================================" << endl;
 }
 
 // Staff functions
@@ -59,9 +63,15 @@ void Staff::editCarpark(vector<Carpark>& vC) const {
 	int carpark;
 	cout << "Which carpark would you like to edit? (Please input the ID) ";
 	cin >> carpark;
+	for (int i = 0; i < vC.size(); i++) {
+		if (vC[i]._id == carpark) {
+			carpark = i;
+			break;
+		}
+	}
 
 	int selection;
-	cout << "Which information do you want to change?";
+	cout << "Which information do you want to change?" << endl;
 	cout << "1.) Car Park ID" << endl;
 	cout << "2.) Car Park Name" << endl;
 	cout << "3.) Location" << endl;
@@ -90,13 +100,56 @@ void Staff::editCarpark(vector<Carpark>& vC) const {
 		cout << "Please enter the new balance: ";
 		cin >> vC[carpark]._accBal;
 
-	case 5: // Change total number of slots
-		cout << "Please enter the new number of motorcycle slots: ";
-		cin >> vC[carpark]._numSlots[0];
-		cout << "Please enter the new number of private car slots: ";
-		cin >> vC[carpark]._numSlots[1];
-		cout << "Please enter the new number of light goods vehicle slots: ";
-		cin >> vC[carpark]._numSlots[2];
+	case 5: {// Change total number of slots
+			int oldSlotMotor = vC[carpark]._numSlots[0];
+			int oldSlotPrivate = vC[carpark]._numSlots[1];
+			int oldSlotLight = vC[carpark]._numSlots[2];
+
+			cout << "Please enter the new number of motorcycle slots: ";
+			cin >> vC[carpark]._numSlots[0];
+			cout << "Please enter the new number of private car slots: ";
+			cin >> vC[carpark]._numSlots[1];
+			cout << "Please enter the new number of light goods vehicle slots: ";
+			cin >> vC[carpark]._numSlots[2];
+
+
+			// Refresh the CarparkSlot vector
+			vector<CarparkSlot> temp;
+			for (int i = 0; i < vC[carpark]._numSlots[0]; i++) {
+				string vehicleType = "Motor cycle";
+				if (i > oldSlotMotor) { // Need to add more slots
+					temp.push_back(CarparkSlot(i, vC[carpark]._name, vehicleType));
+				}
+				else {
+					temp.push_back(vC[carpark]._cs[i]);
+					temp[i]._id = i;
+				}
+			}
+
+			for (int i = vC[carpark]._numSlots[0]; i < vC[carpark]._numSlots[0] + vC[carpark]._numSlots[1]; i++) {
+				string vehicleType = "Private car";
+				if (i - vC[carpark]._numSlots[0] > oldSlotPrivate) { // Need to add more slots
+					temp.push_back(CarparkSlot(i, vC[carpark]._name, vehicleType));
+				}
+				else {
+					temp.push_back(vC[carpark]._cs[i]);
+					temp[i]._id = i;
+				}
+			}
+
+			for (int i = vC[carpark]._numSlots[0] + vC[carpark]._numSlots[1]; i < vC[carpark]._numSlots[0] + vC[carpark]._numSlots[1] + vC[carpark]._numSlots[2]; i++) {
+				string vehicleType = "Light goods vehicle";
+				if (i - vC[carpark]._numSlots[0] - vC[carpark]._numSlots[1] > oldSlotLight) { // Need to add more slots
+					temp.push_back(CarparkSlot(i, vC[carpark]._name, vehicleType));
+				}
+				else {
+					temp.push_back(vC[carpark]._cs[i]);
+					temp[i]._id = i;
+				}
+			}
+
+			vC[carpark]._cs = temp;
+		}
 		break;
 
 	case 6:
@@ -137,4 +190,58 @@ void Staff::removeCarpark(vector<Carpark>& vC) const {
 
 	vC.erase(vC.begin() + index);
 	cout << "That carpark has been removed." << endl;
+}
+
+void Staff::createAccount(vector<User>& uC) const {
+	int input;
+	cout << "Is this a staff (0) or driver (1) account? ";
+	cin >> input;
+	
+	//int id, string username, string name, string type, string number, double bal;
+	string username;
+	cout << "Please enter a unique username: ";
+	cin >> username;
+
+	string name;
+	cout << "Please enter the name: ";
+	cin >> name;
+
+	if (input == 1) { // Making a driver account
+		string type;
+		cout << "Please input vehicle type (Motor cycle, Private car, Light goods vehicle): ";
+		cin >> type;
+
+		string number;
+		cout << "Please input the plate number: ";
+		cin >> number;
+
+		uC.push_back(Driver(uC.size(), username, name, type, number));
+	}
+	else {
+		uC.push_back(Staff(uC.size(), username, name));
+	}
+}
+
+void Staff::editAccount(vector<User>& uC) const {
+	for (int i = 0; i < uC.size(); i++) {
+		uC[i].showUsersInfo();
+	}
+
+	int user;
+	cout << "Which user would you like to edit? (Please enter the ID)" << endl;
+	cin >> user;
+
+	int input;
+	cout << "Which information do you want to change?" << endl;
+	if (typeid(uC[user]).name() == typeid(Staff).name()) { // Do staff stuff
+
+	}
+	else { // Do driver stuff
+
+	}
+
+}
+
+void Staff::removeAccount(vector<User>& uC) const {
+
 }
